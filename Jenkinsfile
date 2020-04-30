@@ -61,7 +61,7 @@ pipeline {
                build job: 'hacienda-send-email-with-no-attachments', parameters: [
                       string(name: 'TO', value: "$EMAIL_DEV_TEAM_NOMINAS"),
                       string(name: 'SUBJECT', value: "$JOB_NAME ($BUILD_NUMBER) result"),
-                      string(name: 'BODY', value: "Please go to $BUILD_URL and verify the build)"
+                      string(name: 'BODY', value: "Please go to $BUILD_URL and verify the build")
                ]
             }
         }
