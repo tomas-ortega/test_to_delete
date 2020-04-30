@@ -47,5 +47,11 @@ pipeline {
                 sh "scp ./target/*.war jenkins@10.0.2.15:/home/jenkins/jenkins-ci/nominas_backend/files_to_image/"
             }
         }
+        
+        stage('Start CD') {
+            steps {
+                 build 'nominas-backend-cd'
+            }
+        }
     }
 }
