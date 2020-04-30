@@ -35,5 +35,17 @@ pipeline {
                 sh "mvn install"
             }
         }
+
+        stage('Clean destination folder files') {
+            steps {
+                sh "ssh jenkins@10.0.2.15 'rm -f /home/jenkins/jenkins-ci/nominas_backend/files_to_image/*.war'"
+            }
+        }
+
+        stage('Delivery .war') {
+            steps {
+                sh "scp ./target/*.war jenkins@10.0.2.15:/home/jenkins/jenkins-ci/nominas_backend/files_to_image/"
+            }
+        }
     }
 }
