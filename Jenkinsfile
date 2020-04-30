@@ -16,6 +16,20 @@ pipeline {
             }
         }
 
+        stage('Sync Git Repo') {
+           steps {
+              checkout([$class: 'GitSCM',
+		  branches: [[name: "*/$BRANCH_NAME"]],
+		  doGenerateSubmoduleConfigurations: false,
+		  extensions: [[$class: 'SubmoduleOption',
+		                recursiveSubmodules: true
+		                ]], 
+		  submoduleCfg: [],
+		  userRemoteConfigs: [[url: "https://github.com/tomas-ortega/jenkins-java-maven-sonar.git"]]])
+
+           }
+        }
+
         stage('Compile .war') {
             steps {
                 sh "mvn install"
