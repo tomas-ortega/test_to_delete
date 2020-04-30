@@ -44,13 +44,25 @@ pipeline {
 
         stage('Delivery .war') {
             steps {
-                sh "scp ./target/*.war jenkins@10.0.2.15:/home/jenkins/jenkins-ci/nominas_backend/files_to_image/"
+                sh "scp ./target/*.war jenkins@10.0.2.16:/home/jenkins/jenkins-ci/nominas_backend/files_to_image/"
             }
         }
-        
-        stage('Start CD') {
-            steps {
-                 build 'nominas-backend-cd'
+    }
+
+    post {
+        success {
+            script {
+		build 'nominas-backend-cd'
+            }
+        }
+
+        failure {
+	    script {
+               build job: 'hacienda-send-email-with-no-attachments', parameters: [
+                      string(name: 'TO', value: "$EMAIL_DEV_TEAM_NOMINAS",
+                      string(name: 'SUBJECT', value: "$JOB_NAME ($BUILD_NUMBER) result",
+                      string(name: 'BODY', value: "Please go to $BUILD_URL and verify the build"
+               ]
             }
         }
     }
