@@ -6,7 +6,7 @@ pipeline {
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: "${env.NUM_TO_KEEP_ARTIFACTS}", artifactNumToKeepStr: "${env.NUM_TO_KEEP_ARTIFACTS}"))
-        timestamps()
+        timestamps()  
     }
 
     stages {
